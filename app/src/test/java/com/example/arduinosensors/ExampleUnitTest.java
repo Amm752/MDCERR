@@ -1,4 +1,4 @@
-package com.example.ahmad.mdc;
+package com.example.arduinosensors;
 
 import org.junit.Test;
 

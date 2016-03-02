@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mobile_data_collection.iml" filepath="$PROJECT_DIR$/mobile_data_collection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/arduinosensors.iml" filepath="$PROJECT_DIR$/arduinosensors.iml" />
     </modules>
   </component>
 </project>

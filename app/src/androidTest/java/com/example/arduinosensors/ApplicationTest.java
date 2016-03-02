@@ -1,4 +1,4 @@
-package com.example.ahmad.mdc;
+package com.example.arduinosensors;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
