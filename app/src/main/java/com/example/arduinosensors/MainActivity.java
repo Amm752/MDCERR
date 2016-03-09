@@ -5,10 +5,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -18,8 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-
-    Button btnOn, btnOff;
+    DatabaseHelper Device;
+    Button btnOn, btnOff, btnviewAll;
     TextView txtArduino, txtString, txtStringLength, sensorView0, sensorView1, sensorView2, sensorView3;
     Handler bluetoothIn;
 
@@ -41,17 +43,20 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        Device = new DatabaseHelper(this);
+
 
         //Link the buttons and textViews to respective views
         btnOn = (Button) findViewById(R.id.buttonOn);
         btnOff = (Button) findViewById(R.id.buttonOff);
         txtString = (TextView) findViewById(R.id.txtString);
+        btnviewAll = (Button) findViewById(R.id.button_viewAll);
         txtStringLength = (TextView) findViewById(R.id.testView1);
         sensorView0 = (TextView) findViewById(R.id.sensorView0);
         sensorView1 = (TextView) findViewById(R.id.sensorView1);
         sensorView2 = (TextView) findViewById(R.id.sensorView2);
         sensorView3 = (TextView) findViewById(R.id.sensorView3);
-
+        viewAll();
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
                 if (msg.what == handlerState) {										//if message is what we want
@@ -63,15 +68,26 @@ public class MainActivity extends Activity {
                         txtString.setText("Data Received = " + dataInPrint);
                         int dataLength = dataInPrint.length();							//get length of data received
                         txtStringLength.setText("String Length = " + String.valueOf(dataLength));
-
+                        // #
                         if (recDataString.charAt(0) == '#')								//if it starts with # we know it is what we are looking for
+
                         {
                             String sensor0 = recDataString.substring(1, 5);             //get sensor value from string between indices 1-5
                             String sensor1 = recDataString.substring(6, 10);            //same again...
                             String sensor2 = recDataString.substring(11, 15);
                             String sensor3 = recDataString.substring(16, 20);
 
-                            sensorView0.setText(" Sensor 0 Voltage = " + sensor0 + "V");	//update the textviews with sensor values
+                        /* Trying to insert sensor values into the database tabel NAMED Device
+                            boolean isInserted = Device.insertData(sensor0,
+                                    sensor1,sensor2, sensor3, sensor3, sensor3, sensor3, sensor3, sensor3 , sensor3, sensor3);
+                            if(isInserted = true)
+                                Toast.makeText(MainActivity.this,"Data Inserted",Toast.LENGTH_LONG).show();
+                            else
+                                Toast.makeText(MainActivity.this,"Data not Inserted",Toast.LENGTH_LONG).show();
+
+                         */
+                        //update the textviews with sensor values
+                            sensorView0.setText(" Sensor 0 Voltage = " + sensor0 + "V");
                             sensorView1.setText(" Sensor 1 Voltage = " + sensor1 + "V");
                             sensorView2.setText(" Sensor 2 Voltage = " + sensor2 + "V");
                             sensorView3.setText(" Sensor 3 Voltage = " + sensor3 + "V");
@@ -87,6 +103,8 @@ public class MainActivity extends Activity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
         checkBTState();
 
+        // version , type , checksum , reserved byte, 16bits?????, 16byte reserved.
+        // version 00000000, Type Req data
 
         // Set up onClick listeners for buttons to send 1 or 0 to turn on/off LED
         btnOff.setOnClickListener(new OnClickListener() {
@@ -149,6 +167,47 @@ public class MainActivity extends Activity {
         //If it is not an exception will be thrown in the write method and finish() will be called
         mConnectedThread.write("x");
     }
+
+    public void viewAll(){
+        btnviewAll.setOnClickListener(
+                new View.OnClickListener(){
+                    @Override
+                public  void onClick(View v){
+                        Cursor res = Device.getAllData();
+                        if(res.getCount() == 0){
+                            showMessage("Error","Nothing Found");
+                            return ;
+                        }
+                        StringBuffer buffer = new StringBuffer();
+                        while (res.moveToNext()){
+                            buffer.append("id :" + res.getString(0)+"\n");
+                            buffer.append("GyroX :" + res.getString(1)+"\n");
+                            buffer.append("GyroY :" + res.getString(2)+"\n");
+                            buffer.append("GyroZ :" + res.getString(3)+"\n");
+                            buffer.append("Force1 :" + res.getString(4)+"\n");
+                            buffer.append("Force2 :" + res.getString(5)+"\n");
+                            buffer.append("Force3 :" + res.getString(6)+"\n");
+                            buffer.append("Force4 :" + res.getString(7)+"\n");
+                            buffer.append("AccX :" + res.getString(8)+"\n");
+                            buffer.append("AccY :" + res.getString(9)+"\n");
+                            buffer.append("AccZ :" + res.getString(10)+"\n");
+                            buffer.append("Sync :" + res.getString(11)+"\n\n");
+                        }
+                        showMessage("Data", buffer.toString());
+                    }
+                }
+        );
+    }
+
+    public void showMessage(String title, String Message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(Message);
+        builder.show();
+    }
+
+
 
     @Override
     public void onPause()
