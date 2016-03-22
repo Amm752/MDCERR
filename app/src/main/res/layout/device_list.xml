@@ -3,12 +3,12 @@
 android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4e8060">
+    >
     <TextView android:id="@+id/title_paired_devices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Select Bluetooth device from paired devices:"
+        android:text="Select btSerial device from paired devices:"
         android:visibility="gone"
         android:background="#666"
         android:textColor="#fff"
@@ -30,7 +30,6 @@ android:orientation="vertical"
         android:id="@+id/infoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
         android:text="If no devices are listed please pair your device in Android settings"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
