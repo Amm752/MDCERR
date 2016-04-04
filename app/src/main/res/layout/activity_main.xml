@@ -1,80 +1,145 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/testView1"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/txtString"
-        android:text=""
-        android:textSize="15sp" />
+        android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/txtString"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignLeft="@+id/testView1"
-        android:layout_alignParentBottom="true"
-        android:text=""
-        android:textSize="15sp" />
+        <Button
+            android:id="@+id/btnDisconnect"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="5"
+            android:text="Disconnect" />
+
+        <Button
+            android:id="@+id/btnClearInput"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="5"
+            android:text="Clear Input" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <CheckBox
+                android:id="@+id/chkScroll"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:checked="true"
+                android:text="Scroll" />
+
+            <CheckBox
+                android:id="@+id/chkReceiveText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Read" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sync Time"
+            android:id="@+id/buttonSync" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop"
+            android:id="@+id/buttonStop" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Collect"
+            android:id="@+id/buttonCollect" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Request"
+            android:id="@+id/buttonRequest" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Q"
+            android:id="@+id/buttonQuery" />
+    </LinearLayout>
 
     <Button
-        android:id="@+id/buttonOn"
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="LED ON" />
+        android:text="Delete DB"
+        android:id="@+id/buttonDelete" />
 
-    <Button
-        android:id="@+id/buttonOff"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/viewScroll"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/txtReceive"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="#eeeeee"
+            android:typeface="monospace"
+            android:hint="Message shows up here ..."
+            android:scrollbars="vertical" />
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/editSend"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buttonOn"
-        android:layout_alignParentRight="true"
-        android:text="LED OFF" />
+        android:hint="Enter command ..."
+        android:inputType="text" />
 
-    <TextView
-        android:id="@+id/sensorView1"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sensorView0"
-        android:layout_centerHorizontal="true"
-        android:text="Sensor 1 Voltage = ????"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/sensorView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sensorView1"
-        android:layout_centerHorizontal="true"
-        android:text="Sensor 2 Voltage = ????"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <Button
+            android:id="@+id/btnClear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="5dp"
+            android:text="Clear" />
 
-    <TextView
-        android:id="@+id/sensorView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sensorView2"
-        android:layout_centerHorizontal="true"
-        android:text="Sensor 3 Voltage = ????"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="5dp"
+            android:text="Send" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/sensorView0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="196dp"
-        android:text="Sensor 0 Voltage = ????"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-</RelativeLayout>
+</LinearLayout> <!-- </RelativeLayout> -->
